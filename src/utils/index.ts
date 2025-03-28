@@ -28,9 +28,8 @@ export const generateBoard = (size: number): BoxState[] => {
   export const isValidMove = (board: BoxState[], index: number, player: Player): boolean => {
     const boxState = board[index];
     const playerState = player === Player.RED ? BoxState.RED : BoxState.BLUE;
-    
-    // Si es una celda de su color no se pintas
     if (boxState === playerState) {
+      console.log('No puedes pintar una casilla que ya es tuya');
       return false;
     }
     
