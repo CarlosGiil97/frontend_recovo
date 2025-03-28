@@ -22,7 +22,7 @@ const Box: React.FC<BoxProps> = ({ state, onClick, disabled }) => {
   
   return (
     <button
-      className={`w-full h-16 md:h-20 ${getColorClass()} rounded-md transition-colors duration-200`}
+      className={`w-full h-16 md:h-20 ${getColorClass()} rounded-md transition-colors duration-200 border border-black hover:border-white`}
       onClick={onClick}
       disabled={disabled}
     />

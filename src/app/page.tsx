@@ -2,8 +2,8 @@
 import Image from 'next/image';
 import { useGameContext } from '@/contexts/Context';
 import { useState } from 'react';
-import Box from '@/components/Box';
 import { Player } from '@/types';
+import Board from '@/components/Board';
 
 export default function Home() {
 
@@ -120,7 +120,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex-1 bg-white p-4 md:p-8 overflow-y-auto min-h-[60vh] md:min-h-screen">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto min-h-[60vh] md:min-h-screen bg-gray-50">
         {gameStarted && (
           <>
             {winner ? (
@@ -136,16 +136,7 @@ export default function Home() {
           </h2>
         </div>
       )}
-            <div className="flex flex-row gap-2 my-4 justify-center">
-              {board.map((boxState, index) => (
-                <Box
-                  key={index}
-                  state={boxState}
-                  onClick={() => handleBoxClick(index)}
-                  disabled={!!winner}
-                />
-              ))}
-            </div>
+            <Board />
           </>
         )}
       </div>
