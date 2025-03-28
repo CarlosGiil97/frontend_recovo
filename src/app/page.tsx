@@ -1,14 +1,27 @@
 "use client";
 import Image from 'next/image';
 import { useGameContext } from '@/contexts/Context';
+import { useState } from 'react';
+import Box from '@/components/Box';
 
 export default function Home() {
 
-  const { gameStarted,start } = useGameContext();
-
+  const { gameStarted,start,reset, board , winner } = useGameContext();
+  const [boardSize, setBoardSize] = useState<number>(10);
+  const [error, setError] = useState<string>('');
   const handleStartGame = () => {
-   
-    start(10);
+    if (boardSize < 1) {
+      setError('El tamaño del tablero debe ser mayor a 0');
+      return;
+    }
+    start(boardSize);
+  };
+
+  const handleBoardSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    console.log(value)
+    setBoardSize(value);
+    setError('');
   };
 
   return (
@@ -64,15 +77,53 @@ export default function Home() {
             </ul>
           </div>
           <div className="bg-gray-700/50 p-3 md:p-4 rounded-lg flex justify-center">
-          {!gameStarted && (
-            <button className='bg-blue-500 text-white p-2 rounded-lg' onClick={handleStartGame}>Comenzar</button>
-          ) }
+          {!gameStarted ? (
+        <div className="flex flex-col space-y-4">
+          <label className="block text-gray-300">
+            ¿Cuantas casillas quieres?:
+            <input
+              type="number"
+              min="1"
+              value={boardSize.toString()}
+              onChange={handleBoardSizeChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none "
+            />
+          </label>
+          
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          
+          <button
+            onClick={handleStartGame}
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-green-700"
+          >
+            Comenzar
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={reset}
+          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 "
+        >
+          Reiniciar Juego
+        </button>
+      )}
           </div>
         </div>
       </div>
 
       <div className="flex-1 bg-white p-4 md:p-8 overflow-y-auto min-h-[60vh] md:min-h-screen">
-        
+        {gameStarted && (
+          <div className="flex flex-row gap-2 my-4 justify-center">
+          {board.map((boxState, index) => (
+            <Box
+              key={index}
+              state={boxState}
+              onClick={() => console.log('click en la posicion', index)}
+              disabled={!!winner}
+            />
+          ))}
+          </div>
+        )}
       </div>
     </div>
   );

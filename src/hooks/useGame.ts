@@ -1,6 +1,8 @@
 import { useReducer } from 'react';
-import { GameState, GameAction, Player , BoxState } from '@/types';
-
+import { GameState, GameAction, Player  } from '@/types';
+import {
+    generateBoard,
+  } from '../utils/index';
 /**
  * Estado inicial del juego
  */
@@ -18,25 +20,11 @@ const initialState: GameState = {
 const gameReducer = (state: GameState, action: GameAction): GameState => {
   switch (action.type) {
     case 'START': {
-    console.log('entro a start')
       const { numsBoxes } = action.payload;
-
-      console.log({
-        ...state,
-        numsBoxes,
-        board: [
-            ...Array(numsBoxes).fill(BoxState.EMPTY),
-        ],
-        currentPlayer: Math.random() < 0.5 ? Player.RED : Player.BLUE,
-        gameStarted: true,
-        winner: null,
-      })
       return {
         ...state,
         numsBoxes,
-        board: [
-            ...Array(numsBoxes).fill(BoxState.EMPTY),
-        ],
+        board: generateBoard(numsBoxes),
         currentPlayer: Math.random() < 0.5 ? Player.RED : Player.BLUE,
         gameStarted: true,
         winner: null,
