@@ -1,5 +1,16 @@
+"use client";
 import Image from 'next/image';
+import { useGameContext } from '@/contexts/Context';
+
 export default function Home() {
+
+  const { gameStarted,start } = useGameContext();
+
+  const handleStartGame = () => {
+   
+    start(10);
+  };
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       <div className="w-full md:w-[30%] bg-gray-400 p-4 md:p-6 text-white overflow-y-auto">
@@ -53,7 +64,9 @@ export default function Home() {
             </ul>
           </div>
           <div className="bg-gray-700/50 p-3 md:p-4 rounded-lg flex justify-center">
-            <button className='bg-blue-500 text-white p-2 rounded-lg mt-4'>Comenzar</button>
+          {!gameStarted && (
+            <button className='bg-blue-500 text-white p-2 rounded-lg' onClick={handleStartGame}>Comenzar</button>
+          ) }
           </div>
         </div>
       </div>

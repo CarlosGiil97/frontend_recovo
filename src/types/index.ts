@@ -25,3 +25,10 @@ export enum BoxState {
     gameStarted: boolean;
     winner: Player | null;
   }
+  /**
+   * Acciones del juego
+   *  */
+  export type GameAction =
+  | { type: "START"; payload: { numsBoxes: number } }
+  | { type: "MOVE"; payload: { index: number } }
+  | { type: "RESET" };

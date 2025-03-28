@@ -1,8 +1,8 @@
 "use client";
 
 import React, { createContext, ReactNode, useContext } from 'react';
-import { useReducer } from 'react';
-import { GameState,BoxState, Player } from '@/types';
+import { useGame } from '@/hooks/useGame';
+import { BoxState, Player } from '@/types';
 
 /**
  * Creo una interfaz para definir el tipo de los valores que se van a compartir en toda la app
@@ -13,31 +13,20 @@ interface GameContextType {
   currentPlayer: Player;
   gameStarted: boolean;
   winner: Player | null;
-  startGame: (numsBoxes: number) => void;
+  start: (numsBoxes: number) => void;
   handleBoxClick: (index: number) => void;
-  resetGame: () => void;
+  reset: () => void;
 }
 
-const initialState: GameState = {
-    numsBoxes: 0,
-    board: [],
-    currentPlayer:  Math.random() < 0.5 ? Player.RED : Player.BLUE ,
-    gameStarted: false,
-    winner: null,
-};
-
-export const useGame = () => {
-    const [state, dispatch] = useReducer(null, initialState);
-}
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-export const GameProvider: React.FC<{ game: ReactNode }> = ({ game }) => {
+export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const gameState = useGame();
   
   return (
     <GameContext.Provider value={gameState}>
-      {game}
+      {children}
     </GameContext.Provider>
   );
 };
