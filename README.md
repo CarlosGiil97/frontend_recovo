@@ -30,9 +30,10 @@ yarn dev
 
 ## 🛠️ Tecnologías
 
-- Next.js 14
+- Next.js 15
+- React 19
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS v4
 - React Context para el estado global
 
 
