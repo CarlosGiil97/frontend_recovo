@@ -3,10 +3,11 @@ import Image from 'next/image';
 import { useGameContext } from '@/contexts/Context';
 import { useState } from 'react';
 import Box from '@/components/Box';
+import { Player } from '@/types';
 
 export default function Home() {
 
-  const { gameStarted,start,reset, board , winner } = useGameContext();
+  const { gameStarted,start,reset, board , winner, handleBoxClick, currentPlayer } = useGameContext();
   const [boardSize, setBoardSize] = useState<number>(10);
   const [error, setError] = useState<string>('');
   const handleStartGame = () => {
@@ -22,6 +23,14 @@ export default function Home() {
     console.log(value)
     setBoardSize(value);
     setError('');
+  };
+
+  const getPlayerColorClass = (player: Player): string => {
+    return player === Player.RED ? 'text-red-500' : 'text-blue-500';
+  };
+
+  const getPlayerText = (player: Player): string => {
+    return player === Player.RED ? 'Rojo' : 'Azul';
   };
 
   return (
@@ -113,16 +122,31 @@ export default function Home() {
 
       <div className="flex-1 bg-white p-4 md:p-8 overflow-y-auto min-h-[60vh] md:min-h-screen">
         {gameStarted && (
-          <div className="flex flex-row gap-2 my-4 justify-center">
-          {board.map((boxState, index) => (
-            <Box
-              key={index}
-              state={boxState}
-              onClick={() => console.log('click en la posicion', index)}
-              disabled={!!winner}
-            />
-          ))}
-          </div>
+          <>
+            {winner ? (
+        <div className="p-4 border rounded-md bg-gray-50">
+          <h2 className="text-2xl text-black font-bold">
+            Ganador: <span className={getPlayerColorClass(winner)}>{getPlayerText(winner)}</span>
+          </h2>
+        </div>
+      ) : (
+        <div className="p-4 border rounded-md bg-gray-50">
+          <h2 className="text-xl text-black">
+            Turno del jugador: <span className={getPlayerColorClass(currentPlayer)}>{getPlayerText(currentPlayer)}</span>
+          </h2>
+        </div>
+      )}
+            <div className="flex flex-row gap-2 my-4 justify-center">
+              {board.map((boxState, index) => (
+                <Box
+                  key={index}
+                  state={boxState}
+                  onClick={() => handleBoxClick(index)}
+                  disabled={!!winner}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -2,6 +2,9 @@ import { useReducer } from 'react';
 import { GameState, GameAction, Player  } from '@/types';
 import {
     generateBoard,
+    getNextPlayer,
+    makeMove,
+    isWinning
   } from '../utils/index';
 /**
  * Estado inicial del juego
@@ -32,7 +35,19 @@ const gameReducer = (state: GameState, action: GameAction): GameState => {
     }
     
     case 'MOVE': {
-      console.log('entro a move')
+        const { index } = action.payload;
+
+        const newBoard = makeMove(state.board, index, state.currentPlayer);
+
+        //siempre hay que comprobar si se ha terminado la partida
+        const winner = isWinning(newBoard);
+        
+        return {
+            ...state,
+            board: newBoard,
+            currentPlayer: winner ? state.currentPlayer : getNextPlayer(state.currentPlayer),
+            winner,
+          };
     }
     
     case 'RESET': {
