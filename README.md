@@ -35,6 +35,7 @@ yarn dev
 - TypeScript
 - Tailwind CSS v4
 - React Context para el estado global
+- Eslint
 
 
 ## 📝 Reglas del Juego

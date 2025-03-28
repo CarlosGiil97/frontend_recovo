@@ -2,13 +2,12 @@
 import Image from 'next/image';
 import { useGameContext } from '@/contexts/Context';
 import { useState } from 'react';
-import { Player } from '@/types';
 import Board from '@/components/Board';
 import Status from '@/components/Status';
 
 export default function Home() {
 
-  const { gameStarted,start,reset, board , winner, handleBoxClick, currentPlayer } = useGameContext();
+  const { gameStarted,start,reset , winner, currentPlayer } = useGameContext();
   const [boardSize, setBoardSize] = useState<number>(10);
   const [error, setError] = useState<string>('');
   const handleStartGame = () => {
