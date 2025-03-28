@@ -4,6 +4,7 @@ import { useGameContext } from '@/contexts/Context';
 import { useState } from 'react';
 import { Player } from '@/types';
 import Board from '@/components/Board';
+import Status from '@/components/Status';
 
 export default function Home() {
 
@@ -25,13 +26,6 @@ export default function Home() {
     setError('');
   };
 
-  const getPlayerColorClass = (player: Player): string => {
-    return player === Player.RED ? 'text-red-500' : 'text-blue-500';
-  };
-
-  const getPlayerText = (player: Player): string => {
-    return player === Player.RED ? 'Rojo' : 'Azul';
-  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
@@ -121,21 +115,9 @@ export default function Home() {
       </div>
 
       <div className="flex-1 p-4 md:p-8 overflow-y-auto min-h-[60vh] md:min-h-screen bg-gray-50">
-        {gameStarted && (
+      {gameStarted && (
           <>
-            {winner ? (
-        <div className="p-4 border rounded-md bg-gray-50">
-          <h2 className="text-2xl text-black font-bold">
-            Ganador: <span className={getPlayerColorClass(winner)}>{getPlayerText(winner)}</span>
-          </h2>
-        </div>
-      ) : (
-        <div className="p-4 border rounded-md bg-gray-50">
-          <h2 className="text-xl text-black">
-            Turno del jugador: <span className={getPlayerColorClass(currentPlayer)}>{getPlayerText(currentPlayer)}</span>
-          </h2>
-        </div>
-      )}
+            <Status winner={winner} currentPlayer={currentPlayer} />
             <Board />
           </>
         )}
