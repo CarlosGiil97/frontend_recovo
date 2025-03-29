@@ -13,6 +13,7 @@ export enum BoxState {
   export enum Player {
     RED = "RED",
     BLUE = "BLUE",
+    EMPATE = "EMPATE",
   }
   
   /**

@@ -6,11 +6,22 @@ interface GameStatusProps {
 }
 
 const Status = ({ winner, currentPlayer }: GameStatusProps) => {
+
+  console.log(winner, 'winner');
   const getPlayerColorClass = (player: Player): string => {
-    return player === Player.RED ? 'text-red-500' : 'text-blue-500';
+    if(winner != Player.EMPATE){
+      return player === Player.RED ? 'text-red-500' : 'text-blue-500';
+    }else{
+      return 'text-green-500';
+    }
+   
   };
 
   const getPlayerText = (player: Player): string => {
+    if(winner === Player.EMPATE){
+      return 'Empate';
+    }
+    
     return player === Player.RED ? 'Rojo' : 'Azul';
   };
 

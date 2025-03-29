@@ -142,14 +142,19 @@ export const generateBoard = (size: number): BoxState[] => {
       else emptyCount++;
     });
     
-    // Si no hay casillas vacías y un jugador tiene más casillas que el otro, gana
+    // Comprobar tambien el empate
     if (emptyCount === 0) {
-      return redCount > blueCount ? Player.RED : Player.BLUE;
+      if(redCount === blueCount) return Player.EMPATE;
+      if (redCount > blueCount) return Player.RED;
+      if (blueCount > redCount) return Player.BLUE;
     }
     
-    // Si un jugador ha capturado todas las casillas del oponente, gana
-    if (redCount === 0) return Player.BLUE;
-    if (blueCount === 0) return Player.RED;
-
+    const totalOccupied = redCount + blueCount;
+    const initialPercentage = Math.floor(board.length * 0.4); // 20% de cada color al inicio
+    if (totalOccupied > initialPercentage) {
+      if (redCount === 0) return Player.BLUE;
+      if (blueCount === 0) return Player.RED;
+    }
+    
     return null;
   };
